@@ -1,0 +1,56 @@
+rules_version = '2';
+// Reglas de seguridad de SAJA Perfumes.
+// Pégalas en Firebase Console › Firestore Database › Reglas › Publicar.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function userDoc() { return get(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function signedIn() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && userDoc().data.active != false;
+    }
+    function isAdmin() { return signedIn() && userDoc().data.role == 'admin'; }
+
+    // Catálogo público: cualquiera puede leer
+    match /config/{id}   { allow read: if true; allow write: if isAdmin(); }
+    match /meta/{id}     { allow read: if true; allow write: if signedIn(); }
+    match /products/{id} {
+      allow read: if true;
+      allow create: if signedIn();
+      // Empleado solo puede mover existencias; precios, fotos, etc. solo administrador
+      allow update: if isAdmin()
+        || (signedIn() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stock', 'updatedAt']));
+      allow delete: if isAdmin();
+    }
+
+    // Usuarios del panel
+    match /users/{uid} {
+      allow read: if signedIn() || (request.auth != null && request.auth.uid == uid);
+      // El primer inicio de sesión de "carlos" crea su propio perfil de administrador
+      allow create: if isAdmin()
+        || (request.auth != null && request.auth.uid == uid
+            && request.auth.token.email == 'carlos@saja-859b4.firebaseapp.com'
+            && request.resource.data.role == 'admin');
+      allow update, delete: if isAdmin();
+    }
+
+    // Datos privados del negocio (nunca visibles al público)
+    match /clients/{id}  { allow read, create: if signedIn(); allow update, delete: if isAdmin(); }
+    match /sales/{id}    { allow read, create: if signedIn(); allow update, delete: if isAdmin(); }
+    match /abonos/{id}   { allow read, create: if signedIn(); allow update, delete: if isAdmin(); }
+    match /stockLog/{id} { allow read, create: if signedIn(); allow update, delete: if isAdmin(); }
+    match /gastos/{id}   { allow read, create: if signedIn(); allow update, delete: if isAdmin(); }
+    match /quotes/{id}   { allow read, create, delete: if signedIn(); allow update: if isAdmin(); }
+    match /debts/{id} {
+      allow read, create: if signedIn();
+      // Empleado puede registrar abonos/recordatorios, pero no cancelar ni cambiar el total
+      allow update: if isAdmin()
+        || (signedIn()
+            && request.resource.data.total == resource.data.total
+            && (request.resource.data.status == resource.data.status
+                || (request.resource.data.status == 'liquidado' && request.resource.data.balance <= 0)));
+      allow delete: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SAJA Perfumes · Perfumes 100% originales</title>
+<meta name="description" content="SAJA Perfumes: perfumes 100% originales para él y para ella, ropa y tenis. Pide por WhatsApp, paga de contado o a plazos.">
+<meta name="theme-color" content="#f4f1ec">
+<meta property="og:title" content="SAJA Perfumes">
+<meta property="og:description" content="Perfumes 100% originales para cada momento.">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/catalog.css">
+</head>
+<body>
+
+<!-- ===== Encabezado ===== -->
+<header class="top" id="top">
+  <button class="icon-btn" id="btnMenu" aria-label="Menú">
+    <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+  <a href="#" class="logo-wrap" aria-label="SAJA Perfumes inicio">
+    <img src="logo.png" alt="SAJA Perfumes" class="logo" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-txt',innerHTML:'SAJA<small>PERFUMES</small>'}))">
+  </a>
+  <div class="top-right">
+    <button class="icon-btn" id="btnSearch" aria-label="Buscar">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </button>
+    <button class="icon-btn" id="btnBag" aria-label="Mi lista">
+      <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span class="badge" id="bagCount">0</span>
+    </button>
+  </div>
+</header>
+
+<div class="search-bar" id="searchBar">
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+  <input type="search" id="searchInput" placeholder="Busca tu perfume, marca, ropa o tenis…" autocomplete="off">
+  <button id="searchClose" aria-label="Cerrar">✕</button>
+</div>
+
+<main>
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-track" id="heroTrack"></div>
+    <div class="hero-dots" id="heroDots"></div>
+  </section>
+
+  <!-- ===== Categorías ===== -->
+  <section class="sec">
+    <div class="sec-head">
+      <h2>Explora categorías</h2>
+      <a href="#catalogo" class="more">Ver todas <svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></a>
+    </div>
+    <div class="cats" id="cats"></div>
+  </section>
+
+  <!-- ===== Más buscados ===== -->
+  <section class="sec">
+    <div class="sec-head">
+      <h2>Los más buscados</h2>
+      <a href="#catalogo" class="more" data-cat="top">Ver todas <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="rail" id="rail"></div>
+  </section>
+
+  <!-- ===== Comunidad / Visítanos ===== -->
+  <section class="sec">
+    <div class="promo">
+      <div class="promo-art">
+        <div class="bottle3d small"><div class="cap"></div><div class="glass"><img src="logo.png" alt="" onerror="this.remove()"></div></div>
+      </div>
+      <div class="promo-body">
+        <h3>Únete a nuestra comunidad</h3>
+        <p>Síguenos para promociones exclusivas, nuevos lanzamientos y más.</p>
+        <div class="promo-actions">
+          <a class="pill light" id="lnkIg" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg> Instagram
+          </a>
+          <a class="pill light" id="lnkMap" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg> Cómo llegar
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Catálogo ===== -->
+  <section class="sec" id="catalogo">
+    <div class="sec-head">
+      <h2 id="catTitle">Catálogo</h2>
+      <span class="count" id="resultCount"></span>
+    </div>
+    <div class="filters">
+      <div class="chips" id="chips"></div>
+      <div class="selects">
+        <select id="brandSel" aria-label="Marca"><option value="">Todas las marcas</option></select>
+        <select id="sortSel" aria-label="Ordenar">
+          <option value="az">Nombre A–Z</option>
+          <option value="lo">Precio: menor a mayor</option>
+          <option value="hi">Precio: mayor a menor</option>
+          <option value="stock">Disponibles primero</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>
+      <p>No encontramos productos con esos filtros.</p>
+      <a class="btn dark" id="emptyWa" target="_blank" rel="noopener">Pregúntanos por WhatsApp</a>
+    </div>
+    <div class="load-more"><button class="btn ghost" id="btnMore" hidden>Ver más productos</button></div>
+  </section>
+
+  <!-- ===== Confianza ===== -->
+  <section class="sec">
+    <div class="trust">
+      <div><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg><b>100% Originales</b><span>Garantía de autenticidad</span></div>
+      <div><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg><b>Envío seguro</b><span>A todo México</span></div>
+      <div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg><b>Pagos flexibles</b><span>Efectivo, tarjeta, transferencia y a plazos</span></div>
+      <div><svg viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19c0 1.5-2 2-5 2"/></svg><b>Atención personalizada</b><span>Estamos para ayudarte</span></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <img src="logo.png" alt="" class="foot-logo" onerror="this.remove()">
+    <p class="foot-brand">SAJA Perfumes</p>
+    <p id="footAddr"></p>
+    <div class="foot-links">
+      <a id="footWa" target="_blank" rel="noopener">WhatsApp <span id="footPhone"></span></a>
+      <a id="footIg" target="_blank" rel="noopener">Instagram</a>
+      <a id="footMap" target="_blank" rel="noopener">Ubicación</a>
+    </div>
+    <p class="foot-small">© <span id="year"></span> SAJA Perfumes · Precios en MXN sujetos a cambio sin previo aviso.</p>
+  </footer>
+</main>
+
+<!-- ===== Navegación inferior ===== -->
+<nav class="bottom-nav">
+  <a href="#" class="on" data-nav="home"><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg>Inicio</a>
+  <a href="#catalogo" data-nav="cats"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="17" r="3"/><circle cx="17" cy="17" r="3"/></svg>Categorías</a>
+  <a href="#" data-nav="favs"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>Favoritos</a>
+  <a id="navIg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg>Instagram</a>
+  <a id="navWa" target="_blank" rel="noopener" class="wa"><svg viewBox="0 0 24 24"><path d="M4 20l1.3-3.8A8 8 0 1 1 8 19z"/><path d="M9 9.5c.5 2.5 2.5 4.5 5 5l1.2-1.2 2 1-.6 1.6c-3.8.3-8.5-4.4-8.2-8.2l1.6-.6 1 2z"/></svg>WhatsApp</a>
+</nav>
+
+<!-- ===== Menú lateral ===== -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <img src="logo.png" alt="" onerror="this.remove()"><b>SAJA Perfumes</b>
+    <button class="icon-btn" data-close aria-label="Cerrar">✕</button>
+  </div>
+  <nav class="drawer-nav" id="drawerNav"></nav>
+  <div class="drawer-foot">
+    <a class="btn dark" id="drawerWa" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+    <a class="btn ghost" id="drawerIg" target="_blank" rel="noopener">Instagram</a>
+    <a class="btn ghost" id="drawerMap" target="_blank" rel="noopener">Cómo llegar a la tienda</a>
+  </div>
+</aside>
+
+<!-- ===== Detalle de producto ===== -->
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <div class="sheet-card">
+    <button class="icon-btn sheet-x" data-close aria-label="Cerrar">✕</button>
+    <div id="sheetBody"></div>
+  </div>
+</div>
+
+<!-- ===== Mi lista ===== -->
+<div class="sheet" id="bag" role="dialog" aria-modal="true">
+  <div class="sheet-card">
+    <button class="icon-btn sheet-x" data-close aria-label="Cerrar">✕</button>
+    <h3 class="sheet-title">Mi lista de interés</h3>
+    <div id="bagBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/firebase-config.js"></script>
+<script src="assets/products-data.js"></script>
+<script src="assets/catalog.js"></script>
+</body>
+</html>
